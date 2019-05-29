@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../lib/leaflet/leaflet.css"/>
+    <link rel="stylesheet" href="../css/index.css"/>
+    <link rel="stylesheet" href="../lib/bootstrap-3.3.7/css/bootstrap.css"/>
+    <link rel="stylesheet" href="../lib/bootstrap-select-1.12.4/css/bootstrap-select.css"/>
+    <link rel="stylesheet" href="../css/index.css"/>
+
+    <script src="../js/jquery.min.js"></script>
+    <script src="../lib/bootstrap-3.3.7/js/bootstrap.js"></script>
+    <script src="../lib/bootstrap-select-1.12.4/js/bootstrap-select.js"></script>
+    <script src="../lib/bootstrap-select-1.12.4/js/i18n/defaults-zh_CN.js"></script>
+    <script src="../lib/leaflet/leaflet.js"></script>
+    <script src="../lib/jquery-koala/jquery.koala.js"></script>
+    <script src="../js/search.js"></script>
+    <script src="../js/map.js"></script>
+    <script src="../js/icon.js"></script>
+
+</head>
+<body>
+<div class="slide-bar">
+    <ul>
+        <li>查看地图</li>
+        <li>导入数据</li>
+    </ul>
+</div>
+
+
+<div class="row">
+    <div class="col-xs-5 select">
+        <div class="form-group">
+            <select id="queryDevice" name="name" class="selectpicker" data-live-search="true" data-max-options="10"
+                    onchange="selectOnchang(this)">
+
+
+            </select>
+        </div>
+    </div>
+</div>
+
+<div id="map">
+
+
+</div>
+
+<script type="text/javascript">
+
+    var map
+    var osmUrl = 'http://localhost/788865972/{z}/{x}/{y}.png';
+    var osmAttrib = '<b style="color:#dddddd">高德地图</b>';
+    var osm;
+    var popup;
+    $(function () {
+
+        osm = L.tileLayer(osmUrl, {
+            minZoom: 5,
+            maxZoom: 15,
+            attribution: osmAttrib
+
+        });
+
+//        初始化Map,之后直接使用map对象
+        map = L.map('map')
+        //初始化设置中心点，建议以你下载地图的范围的中心点，比如你下载的是北京的地图，那么中心点就可以设置为天安门,后面的值表示初始化显示zomm的级别也就是初始化的时候你想看到的地图的范围的大小，值越大，地图展示的范围越小
+            .setView([39.90921,116.402893], 10)
+            .addLayer(osm);
+//地图初始化标记（其实就是随便打几个点，具体根据你后台返回的数据来决定）
+        initMark()
+        popup = L.popup();
+//        在地图上点击调用onMapClick方法
+        map.on('click', onMapClick);
+
+
+    })
+
+
+</script>
+</body>
+</html>
